@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:open_filex/open_filex.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class LocalPage extends StatelessWidget {
 
@@ -26,6 +27,19 @@ class LocalPage extends StatelessWidget {
               title: 'Local',
               history: (localFileBloc.directory == null) ? '' : stateLocalFile.pathHistory.last.substring(localFileBloc.directory!.path.length).trim(),
               onPressedNewFolder: () {
+
+                if (localFileBloc.permission!.isDenied || localFileBloc.permission!.isPermanentlyDenied){
+                  final scaffold = ScaffoldMessenger.of(context);
+                  scaffold.showSnackBar(
+                    const SnackBar(
+                      content: Text('No tiene permiso para hacer esto'),
+                      duration: Duration(seconds: 2),
+                      behavior: SnackBarBehavior.floating,
+                    ),
+                  );
+                  return;
+                }
+
                 final tecFolderName = TextEditingController();
                 final formKey = GlobalKey<FormState>();
         
@@ -76,6 +90,18 @@ class LocalPage extends StatelessWidget {
                 );
               },
               onPressedUploadFile: () async {
+
+                if (localFileBloc.permission!.isDenied || localFileBloc.permission!.isPermanentlyDenied){
+                  final scaffold = ScaffoldMessenger.of(context);
+                  scaffold.showSnackBar(
+                    const SnackBar(
+                      content: Text('No tiene permiso para hacer esto'),
+                      duration: Duration(seconds: 2),
+                      behavior: SnackBarBehavior.floating,
+                    ),
+                  );
+                  return;
+                }
                 final navigator = Navigator.of(context);
                 EasyLoading.show(status: 'Cargando');
                 final pickedFiles = await openFileExplorer(context);
@@ -110,6 +136,9 @@ class LocalPage extends StatelessWidget {
                 } else if (snapshot.hasData) {
                   return BlocBuilder<LocalFileBloc, LocalFileState>(
                     builder: (context, stateLocalFile) {
+                      if (snapshot.data != ''){
+                        return Center(child: Text(snapshot.data!),);
+                      }
                       return ListView.builder(
                         itemCount: stateLocalFile.files.length,
                         itemBuilder: (context, index) {

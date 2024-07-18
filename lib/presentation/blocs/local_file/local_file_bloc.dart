@@ -1,21 +1,24 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:file_management/data/models/model.dart';
 import 'package:file_management/domain/helpers/helper.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 part 'local_file_event.dart';
 part 'local_file_state.dart';
 
 class LocalFileBloc extends Bloc<LocalFileEvent, LocalFileState> {
 
+  PermissionStatus? permission;
   Directory? directory;
   // List<String> pathHistory = [];
 
   LocalFileBloc() : super(const LocalFileState()) {
-
+    
     on<LocalFileEvent>((event, emit) {
       // TODO: implement event handler
     });
@@ -25,31 +28,37 @@ class LocalFileBloc extends Bloc<LocalFileEvent, LocalFileState> {
     
   }
 
-  Future _getLocalPath() async {
-    directory = await getApplicationDocumentsDirectory();
-    final filesDirectory = Directory('${directory!.path}/files');
 
-    if (!(await filesDirectory.exists())) {
-      await filesDirectory.create(recursive: true);
+  Future<void> _getLocalPath() async {
+
+    permission = await Permission.storage.status;
+    if (permission!.isGranted){
+      directory = await getApplicationDocumentsDirectory();
+      final filesDirectory = Directory('${directory!.path}/files');
+
+      if (!(await filesDirectory.exists())) {
+        await filesDirectory.create(recursive: true);
+      }
+      directory = filesDirectory;
+      add(OnSetPathHistory([filesDirectory.path]));
+      await stream.first;
     }
-    directory = filesDirectory;
-    add(OnSetPathHistory([filesDirectory.path]));
-    await stream.first;
-    // pathHistory.add(filesDirectory.path);
+    
   }
 
-  Future<bool> delete() async {
-
-    return true;
-  }
-
-  Future<bool> loadFolders() async {
+  Future<String> loadFolders() async {
     List<FileModel> files = [];
     
     try {
       
       if (directory == null){
         await _getLocalPath();
+        if (permission!.isDenied){
+          return 'El permiso esta denegado, debe permitirlos por el administrador de aplicaciones';
+        }
+        if (permission!.isDenied){
+          return 'El permiso esta permanentemente denegado, debe permitirlos por el administrador de aplicaciones';
+        }
       }
 
       final dir = Directory(state.pathHistory.last);
@@ -82,10 +91,10 @@ class LocalFileBloc extends Bloc<LocalFileEvent, LocalFileState> {
       }
 
       add(OnSetFiles(files));
-      return true;
+      return '';
     } catch (e) {
       print('Error al cargar las carpetas: $e');
-      return false;
+      return 'Error, consulte con el administrador';
     }
   }
 

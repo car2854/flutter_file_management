@@ -5,6 +5,7 @@ import 'package:file_management/presentation/widgets/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:open_filex/open_filex.dart';
 
 class CloudPage extends StatefulWidget {
   final CloudFileBloc cloudFileBloc;
@@ -154,6 +155,7 @@ class _CloudPageState extends State<CloudPage> {
                                           stateCloudFile.files[index].publicUrl,
                                       title: stateCloudFile.files[index].name,
                                       onTap: () async {
+                                        
                                         if (stateCloudFile
                                                 .files[index].format ==
                                             'folder') {
@@ -162,9 +164,17 @@ class _CloudPageState extends State<CloudPage> {
                                           await widget.cloudFileBloc.stream.first;
                                           await widget.cloudFileBloc.getFiles();
                                           EasyLoading.dismiss();
-                                        } else if (stateCloudFile
-                                                .files[index].format ==
-                                            'back') {
+                                          } else if(['pdf', 'docx'].contains(stateCloudFile.files[index].format)) {
+                                            // TODO: Leer PDF
+                                            // OpenFilex.open(stateCloudFile.files[index].publicUrl);
+                                            //  String savedDir = (await getTemporaryDirectory()).path;
+                                            // await FlutterDownloader.enqueue(
+                                            //   url: stateCloudFile.files[index].publicUrl,
+                                            //   savedDir: savedDir,
+                                            //   showNotification: true, // show download progress in status bar (for Android)
+                                            //   openFileFromNotification: true, // click on notification to open downloaded file (for Android)
+                                            // );
+                                          } else if (stateCloudFile.files[index].format == 'back') {
                                           EasyLoading.show(status: 'Cargando');
                                           widget.cloudFileBloc.add(OnSetPathHistoryCloud(stateCloudFile.pathHistory.sublist(0,stateCloudFile.pathHistory.length - 1)));
                                           await widget
@@ -192,34 +202,40 @@ class _CloudPageState extends State<CloudPage> {
                                           .files[index].publicUrl),
                                   title: Text(stateCloudFile.files[index].name),
                                   onTap: () async {
-                                    if (stateCloudFile.files[index].format ==
-                                        'folder') {
+                                    print(stateCloudFile.files[index].format);
+                                    if (stateCloudFile.files[index].format =='folder') {
                                       EasyLoading.show(status: 'Cargando');
                                       widget.cloudFileBloc.add(
-                                          OnSetPathHistoryCloud([
-                                        ...stateCloudFile.pathHistory,
-                                        stateCloudFile.files[index].fileName
+                                        OnSetPathHistoryCloud([...stateCloudFile.pathHistory,stateCloudFile.files[index].fileName
                                       ]));
                                       await widget.cloudFileBloc.stream.first;
                                       await widget.cloudFileBloc.getFiles();
                                       EasyLoading.dismiss();
                                     } else if (stateCloudFile.files[index].format == 'back') {
                                       EasyLoading.show(status: 'Cargando');
-                                      widget.cloudFileBloc.add(
-                                          OnSetPathHistoryCloud(stateCloudFile
-                                              .pathHistory
-                                              .sublist(0,stateCloudFile.pathHistory.length - 1)));
+                                      widget.cloudFileBloc.add(OnSetPathHistoryCloud(stateCloudFile.pathHistory.sublist(0,stateCloudFile.pathHistory.length - 1)));
                                       await widget.cloudFileBloc.stream.first;
                                     
                                       await widget.cloudFileBloc.getFiles();
                                       EasyLoading.dismiss();
+                                    } else if(['pdf', 'docx'].contains(stateCloudFile.files[index].format)) {
+                                      OpenFilex.open(stateCloudFile.files[index].publicUrl);
                                     } else {
                                       showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
-                                          return ImageModal(
-                                            imageUrl: stateCloudFile
-                                                .files[index].publicUrl,
+                                          return Theme(
+                                            data: Theme.of(context).copyWith(
+                                              dialogTheme: DialogTheme(
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(2),
+                                                ),
+                                              )
+                                            ),
+                                            child: ImageModal(
+                                              imageUrl: stateCloudFile
+                                                  .files[index].publicUrl,
+                                            ),
                                           );
                                         },
                                       );
@@ -242,4 +258,5 @@ class _CloudPageState extends State<CloudPage> {
       ],
     );
   }
+
 }

@@ -7,7 +7,7 @@ class LocalFileState extends Equatable {
 
   const LocalFileState({
     List<FileModel>? files,
-    List<String>? pathHistory
+    List<String>? pathHistory,
   }) : files = files ?? const [], pathHistory = pathHistory ?? const[''];
 
   LocalFileState copyWith({
@@ -15,7 +15,7 @@ class LocalFileState extends Equatable {
     List<String>? pathHistory,
   }) => LocalFileState(
     files: files ?? this.files,
-    pathHistory: pathHistory ?? this.pathHistory
+    pathHistory: pathHistory ?? this.pathHistory,
   );
 
   @override

@@ -3,8 +3,14 @@ import 'package:file_management/presentation/pages/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-void main() {
+void main() async {
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await _checkAndRequestPermissions();
+
   runApp(
     MultiBlocProvider(
       providers: [
@@ -14,6 +20,13 @@ void main() {
       child: const MyApp(),
     )
   );
+}
+
+Future<void> _checkAndRequestPermissions() async {
+  var status = await Permission.storage.status;
+  if (!status.isGranted) {
+    await Permission.storage.request();
+  }
 }
 
 class MyApp extends StatelessWidget {

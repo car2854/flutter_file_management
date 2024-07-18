@@ -29,7 +29,7 @@ class ImageModal extends StatelessWidget {
               imageUrl!,
               height: 300.0, 
               width: double.infinity,
-              fit: BoxFit.contain,
+              fit: BoxFit.cover,
             ) : 
             Image.file(
               File(imagePath!),
