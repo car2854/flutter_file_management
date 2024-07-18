@@ -137,6 +137,11 @@ class LocalPage extends StatelessWidget {
             );
           },
         ),
+
+        // -------------------------
+        // Lista de archivos
+        // -------------------------
+
         Expanded(
           child: FutureBuilder(
               future: localFileBloc.loadFolders(),
@@ -186,10 +191,19 @@ class LocalPage extends StatelessWidget {
                               title: stateLocalFile.files[index].name,
                               isLocal: true,
                               onTap: () async {
+                                print(stateLocalFile.files[index].format);
                                 if (['pdf', 'docx'].contains(stateLocalFile.files[index].format)){
                                   OpenFilex.open(stateLocalFile.files[index].publicUrl);
-                                } else if (['image','gif'].contains(stateLocalFile.files[index].format)){
-                                  showDialog(
+                                }else if (stateLocalFile.files[index].format == 'folder'){
+                                  localFileBloc.add(OnSetPathHistory( [...stateLocalFile.pathHistory, stateLocalFile.files[index].publicUrl] ));
+                                  await localFileBloc.stream.first;
+                                  await localFileBloc.loadFolders();
+                                }else if (stateLocalFile.files[index].format == 'back'){
+                                  localFileBloc.add(OnSetPathHistory(stateLocalFile.pathHistory.sublist(0 ,stateLocalFile.pathHistory.length - 1)));
+                                  await localFileBloc.stream.first;
+                                  await localFileBloc.loadFolders();
+                                }else{
+                                showDialog(
                                     context: context, 
                                     builder: (BuildContext context) {
                                       return Theme(
@@ -206,14 +220,6 @@ class LocalPage extends StatelessWidget {
                                       );
                                     },
                                   );
-                                }else if (stateLocalFile.files[index].format == 'folder'){
-                                  localFileBloc.add(OnSetPathHistory( [...stateLocalFile.pathHistory, stateLocalFile.files[index].publicUrl] ));
-                                  await localFileBloc.stream.first;
-                                  await localFileBloc.loadFolders();
-                                }else if (stateLocalFile.files[index].format == 'back'){
-                                  localFileBloc.add(OnSetPathHistory(stateLocalFile.pathHistory.sublist(0 ,stateLocalFile.pathHistory.length - 1)));
-                                  await localFileBloc.stream.first;
-                                  await localFileBloc.loadFolders();
                                 }
                               },
                                 
