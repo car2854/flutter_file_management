@@ -43,3 +43,5 @@ Facilita la creación de carruseles de imágenes o widgets deslizables horizonta
 
 ## 7. open_filex
 Facilita la apertura de archivos como PDF en el dispositivo utilizando las aplicaciones nativas
+
+## 7. url_launcher

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:open_filex/open_filex.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CloudPage extends StatefulWidget {
   final CloudFileBloc cloudFileBloc;
@@ -165,15 +166,7 @@ class _CloudPageState extends State<CloudPage> {
                                           await widget.cloudFileBloc.getFiles();
                                           EasyLoading.dismiss();
                                           } else if(['pdf', 'docx'].contains(stateCloudFile.files[index].format)) {
-                                            // TODO: Leer PDF
-                                            // OpenFilex.open(stateCloudFile.files[index].publicUrl);
-                                            //  String savedDir = (await getTemporaryDirectory()).path;
-                                            // await FlutterDownloader.enqueue(
-                                            //   url: stateCloudFile.files[index].publicUrl,
-                                            //   savedDir: savedDir,
-                                            //   showNotification: true, // show download progress in status bar (for Android)
-                                            //   openFileFromNotification: true, // click on notification to open downloaded file (for Android)
-                                            // );
+                                            await launchUrl(Uri.parse(stateCloudFile.files[index].publicUrl));
                                           } else if (stateCloudFile.files[index].format == 'back') {
                                           EasyLoading.show(status: 'Cargando');
                                           widget.cloudFileBloc.add(OnSetPathHistoryCloud(stateCloudFile.pathHistory.sublist(0,stateCloudFile.pathHistory.length - 1)));
