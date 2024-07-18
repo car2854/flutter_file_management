@@ -1,29 +1,32 @@
 # file_management
 
-A new Flutter project.
+Un proyecto de flutter para gestionar archivos tanto localmente como en la nube.
 
-## Getting Started
+# Instalacion
 
-This project is a starting point for a Flutter application.
+```bash
+$ flutter pub get
+```
 
-A few resources to get you started if this is your first Flutter project:
+# librerias instaladas
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## 1. bloc, flutter_bloc
+Manejo de estados.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 2. equatable
+Herramienta util para comparar objetos de manera eficiente.
 
+## 3. path_provider
+Para acceder a los directorios tipicos donde las aplicaciones pueden almacenar archivos de manera persistente en el dispositivo.
 
-bloc: manejo de estados
-flutter_bloc: manejo de estaods
-equatable: simplificar la implementación de clases de datos inmutables en Dart.
-path_provider: para poder ver los archivos dentro del telefono y poder manipularlos
+## 4. permission_handler
+Facilita la solicitud y gestión de permisos de manera sencilla.
 
-<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> Para agregar un permiso y leer los archivos en el local
-permission_handler: Para ver los permisos
-file_picker: para poder ver los archivos que hay en el telefono
+## 5. file_picker
+Permite seleccionar archivos desde el almacenamiento del dispositivo.
 
-carousel_slider para mostrar las imagenes en carrousel
-open_filex  abrir pdf local
+## 6. carousel_slider
+Facilita la creación de carruseles de imágenes o widgets deslizables horizontalmente.
+
+## 7. open_filex
+Facilita la apertura de archivos como PDF en el dispositivo utilizando las aplicaciones nativas
