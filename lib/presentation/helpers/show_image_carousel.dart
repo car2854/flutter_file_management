@@ -40,7 +40,7 @@ void showImagesCarousel({required List<File> files, required BuildContext contex
                         return (['pdf', 'docs'].contains(getFileExtensionHelper(file.path))) ? Column(
                           children: [
                             const Expanded(
-                              child: Icon(Icons.picture_as_pdf),
+                              child: Icon(Icons.picture_as_pdf, size: 90,),
                             ),
                             TextButton(
                               onPressed: (){
