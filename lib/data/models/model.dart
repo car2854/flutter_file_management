@@ -1,0 +1,1 @@
+export 'package:file_management/data/models/file_model.dart';
