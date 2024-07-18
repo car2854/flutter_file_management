@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:file_management/presentation/widgets/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:file_management/domain/helpers/helper.dart';
+import 'package:open_filex/open_filex.dart';
 
 void showImagesCarousel({required List<File> files, required BuildContext context, required void Function() onPressedAccept}) {
 
@@ -36,7 +37,20 @@ void showImagesCarousel({required List<File> files, required BuildContext contex
                   items: files.map((file) {
                     return Builder(
                       builder: (BuildContext context) {
-                        return (['pdf', 'docs'].contains(getFileExtensionHelper(file.path))) ? const Icon(Icons.picture_as_pdf) : Image.file(file, fit: BoxFit.cover, width: 1000,);
+                        return (['pdf', 'docs'].contains(getFileExtensionHelper(file.path))) ? Column(
+                          children: [
+                            const Expanded(
+                              child: Icon(Icons.picture_as_pdf),
+                            ),
+                            TextButton(
+                              onPressed: (){
+                                OpenFilex.open(file.path);
+                              }, 
+                              child: const Text('Ver archivo')
+                            )
+                          ],
+                        ) : 
+                        Image.file(file, fit: BoxFit.cover, width: 1000,);
                       },
                     );
                   }).toList(),
