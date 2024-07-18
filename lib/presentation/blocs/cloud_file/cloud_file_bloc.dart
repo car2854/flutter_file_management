@@ -30,7 +30,6 @@ class CloudFileBloc extends Bloc<CloudFileEvent, CloudFileState> {
 
 
     try {
-      print('Ver aqui------------');
       print(state.pathHistory.last);
       add(const OnSetFileResponse([]));
       Response response = await FileServices.getFiles(folderName: state.pathHistory.last);

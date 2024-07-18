@@ -8,6 +8,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+// Vista para el local
+
 class LocalPage extends StatelessWidget {
 
   final LocalFileBloc localFileBloc;
@@ -25,9 +27,13 @@ class LocalPage extends StatelessWidget {
           builder: (context, stateLocalFile) {
             return AppBarWidget(
               title: 'Local',
+              // Historial de archivos
               history: (localFileBloc.directory == null) ? '' : stateLocalFile.pathHistory.last.substring(localFileBloc.directory!.path.length).trim(),
+
+              // Crear nueva carpeta
               onPressedNewFolder: () {
 
+                // Verifica si tiene los permisos antes de continuar
                 if (localFileBloc.permission!.isDenied || localFileBloc.permission!.isPermanentlyDenied){
                   final scaffold = ScaffoldMessenger.of(context);
                   scaffold.showSnackBar(
@@ -42,7 +48,7 @@ class LocalPage extends StatelessWidget {
 
                 final tecFolderName = TextEditingController();
                 final formKey = GlobalKey<FormState>();
-        
+
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
@@ -59,6 +65,7 @@ class LocalPage extends StatelessWidget {
                         child: NewFolderDialogWidget(
                           tecFolderName: tecFolderName, 
                           formKey: formKey, 
+                          // Validaciones del input
                           validator: (value) {
                             if (value == null || value.trim().isEmpty) return 'Este campo es obligatorio';
                             if (!isValidString(value)) return 'No deben existir caracteres como /,. en el nombre';
@@ -89,8 +96,10 @@ class LocalPage extends StatelessWidget {
                   },
                 );
               },
+              // Funcion de cargar archivos
               onPressedUploadFile: () async {
 
+                // Primero verificar que todos los permisos sean correctos
                 if (localFileBloc.permission!.isDenied || localFileBloc.permission!.isPermanentlyDenied){
                   final scaffold = ScaffoldMessenger.of(context);
                   scaffold.showSnackBar(
@@ -106,6 +115,7 @@ class LocalPage extends StatelessWidget {
                 EasyLoading.show(status: 'Cargando');
                 final pickedFiles = await openFileExplorer(context);
                 EasyLoading.dismiss();
+                // Si ha seleccionado uno o mas archivos seguir con esto
                 if (pickedFiles.isNotEmpty){
                     showImagesCarousel(
                     // ignore: use_build_context_synchronously
@@ -145,6 +155,7 @@ class LocalPage extends StatelessWidget {
 
                           return (stateLocalFile.files[index].format != 'back') 
                           ? DismissibleWidget(
+                            // Desplaza para su eliminacion
                             confirmDismiss: (direction) async {
                             return await deleteDialog(
                                 context: context,
@@ -168,6 +179,7 @@ class LocalPage extends StatelessWidget {
                                 },
                               );
                             },
+                            // Opciones normales de una ListTile
                             widget: ListTileWidget(
                               leadingFormat: stateLocalFile.files[index].format,
                               leadingPath: stateLocalFile.files[index].publicUrl,
@@ -207,6 +219,7 @@ class LocalPage extends StatelessWidget {
                                 
                             ),
                           )
+                          // Esto solo es para el back. ya que el back no debe eliminarse
                           : ListTileWidget(
                               leadingFormat: stateLocalFile.files[index].format,
                               leadingPath: stateLocalFile.files[index].publicUrl,

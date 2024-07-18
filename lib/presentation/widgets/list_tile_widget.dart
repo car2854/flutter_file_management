@@ -25,6 +25,7 @@ class ListTileWidget extends StatelessWidget {
       //   path: leadingPath,
       //   isLocal: isLocal
       // ),
+      // Los tipos de arvhicos que no son imagenes
       leading: (['folder', 'back', 'pdf', 'docx'].contains(leadingFormat)) 
         ? getIcon(
           format: leadingFormat,

@@ -8,6 +8,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+// Vista para la nube
+
 class CloudPage extends StatefulWidget {
   final CloudFileBloc cloudFileBloc;
 
@@ -29,7 +31,9 @@ class _CloudPageState extends State<CloudPage> {
           builder: (context, stateCloudFile) {
             return AppBarWidget(
               title: 'Cloud',
+              // Histoirial
               history: (stateCloudFile.pathHistory.last.trim().isEmpty) ? '': '/${stateCloudFile.pathHistory.last}',
+              // Crear nueva carpeta
               onPressedNewFolder: () {
                 final tecFolderName = TextEditingController();
                 final formKey = GlobalKey<FormState>();
@@ -85,6 +89,7 @@ class _CloudPageState extends State<CloudPage> {
                   },
                 );
               },
+              // Cargar mas archivos
               onPressedUploadFile: () async {
                 final navigator = Navigator.of(context);
                 EasyLoading.show(status: 'Cargando');
@@ -187,6 +192,7 @@ class _CloudPageState extends State<CloudPage> {
                                         }
                                       }),
                                 )
+                                // Esto solo esta cuando sea el back para evitar su eliminacion
                               : ListTile(
                                   leading: getIcon(
                                       format:

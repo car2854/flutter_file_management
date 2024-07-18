@@ -35,6 +35,7 @@ class _MainPageState extends State<MainPage> {
       child: Scaffold(
           body: IndexedStack(
             index: currentPageIndex,
+            // Aqui se muestra la informacion dependiendo de que Index esta
             children: [
               LocalPage(
                 localFileBloc: localFileBloc

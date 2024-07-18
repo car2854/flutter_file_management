@@ -28,7 +28,7 @@ class LocalFileBloc extends Bloc<LocalFileEvent, LocalFileState> {
     
   }
 
-
+  // Para obtener el path local de la aplicacion en el telefono
   Future<void> _getLocalPath() async {
 
     permission = await Permission.storage.status;

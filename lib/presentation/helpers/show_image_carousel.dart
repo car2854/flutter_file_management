@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:file_management/domain/helpers/helper.dart';
 import 'package:open_filex/open_filex.dart';
 
+// Carousel
 void showImagesCarousel({required List<File> files, required BuildContext context, required void Function() onPressedAccept}) {
 
   showDialog(
@@ -37,6 +38,7 @@ void showImagesCarousel({required List<File> files, required BuildContext contex
                   items: files.map((file) {
                     return Builder(
                       builder: (BuildContext context) {
+                        // Si esto no es una imagen es otra cosa, mostrar icono de pdf y habilitar un boton para poder visualizarlo
                         return (['pdf', 'docs'].contains(getFileExtensionHelper(file.path))) ? Column(
                           children: [
                             const Expanded(

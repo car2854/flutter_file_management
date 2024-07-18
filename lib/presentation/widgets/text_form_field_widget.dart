@@ -20,14 +20,14 @@ class TextFormFieldWidget extends StatelessWidget {
         isDense: true, 
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(
-            color: Colors.blue, // Color del borde inferior cuando está enfocado
-            width: 2.0, // Ancho del borde inferior cuando está enfocado
+            color: Colors.blue, 
+            width: 2.0, 
           ),
         ),
         border: UnderlineInputBorder(
           borderSide: BorderSide(
-            color: Colors.grey, // Color del borde inferior
-            width: 1.0, // Ancho del borde inferior
+            color: Colors.grey,
+            width: 1.0, 
           ),
         ),
       ),

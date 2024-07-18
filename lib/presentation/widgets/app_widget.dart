@@ -37,6 +37,7 @@ class AppBarWidget extends StatelessWidget {
               ),
             ],
           ),
+          // Aqui se muestra el historial
           Align(
             alignment: Alignment.centerLeft,
             child: Row(

@@ -9,6 +9,7 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Los permisos
   await _checkAndRequestPermissions();
 
   runApp(

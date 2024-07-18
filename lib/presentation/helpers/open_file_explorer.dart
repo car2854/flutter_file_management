@@ -2,13 +2,14 @@
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-
+// Abrir los archivos del dispositivo
 Future<List<File>> openFileExplorer(BuildContext context) async {
   try {
 
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: true,
       type: FileType.custom,
+      // Validaciones de archivos
       allowedExtensions: ['git', 'png', 'jpg', 'pdf'],
     );
 

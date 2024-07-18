@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// Widget para la carga
 class CircularProgressIndicatorWidget extends StatelessWidget {
   const CircularProgressIndicatorWidget({
     super.key,
