@@ -32,7 +32,7 @@ void showImagesCarousel({required List<File> files, required BuildContext contex
                   viewportFraction: 1.0, 
                   enlargeCenterPage: false, 
                   enableInfiniteScroll: false,
-                  autoPlay: false, 
+                  autoPlay: true, 
                 ),
                   items: files.map((file) {
                     return Builder(

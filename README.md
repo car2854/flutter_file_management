@@ -8,8 +8,6 @@ Un proyecto de flutter para gestionar archivos tanto localmente como en la nube.
 $ flutter pub get
 ```
 
-# librerias instaladas
-
 # Configuración 
 
 para cambiar entre servidores, ya sea `localhost` o `Render`, ir a: `lib/config/enviroment_config.dart`.
@@ -22,6 +20,8 @@ class EnviromentConfig {
 }
 ```
 Deben actualizar esta configuración a la dirección donde se debe realizar la petición. Recuerda que, si estás trabajando en local, debes usar la IP correcta.
+
+# librerias instaladas
 
 ## 1. bloc, flutter_bloc
 Manejo de estados.
@@ -45,3 +45,4 @@ Facilita la creación de carruseles de imágenes o widgets deslizables horizonta
 Facilita la apertura de archivos como PDF en el dispositivo utilizando las aplicaciones nativas
 
 ## 7. url_launcher
+Permite abrir URLs en un navegador web, realizar llamadas telefónicas, enviar correos electrónicos, y realizar otras acciones relacionadas con URLs o esquemas de URI desde una aplicación Flutter, pero en este caso lo utilizo para descargar
