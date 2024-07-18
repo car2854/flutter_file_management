@@ -1,2 +1,4 @@
 export 'package:file_management/domain/helpers/cut_until_next_slash.dart';
 export 'package:file_management/domain/helpers/is_valid_string.dart';
+export 'package:file_management/domain/helpers/get_file_extension.dart';
+export 'package:file_management/domain/helpers/get_format.dart';

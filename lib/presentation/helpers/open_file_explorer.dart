@@ -8,7 +8,8 @@ Future<List<File>> openFileExplorer(BuildContext context) async {
 
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: true,
-      type: FileType.image,
+      type: FileType.custom,
+      allowedExtensions: ['git', 'png', 'jpg', 'pdf'],
     );
 
     if (result != null) {

@@ -26,3 +26,4 @@ permission_handler: Para ver los permisos
 file_picker: para poder ver los archivos que hay en el telefono
 
 carousel_slider para mostrar las imagenes en carrousel
+open_filex  abrir pdf

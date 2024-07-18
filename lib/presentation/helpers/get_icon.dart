@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 Widget getIcon({required String format, required String path}){
   if (format == 'folder') return const Icon(Icons.folder); 
+  if (format == 'pdf') return const Icon(Icons.picture_as_pdf);
+  if (format == 'docx') return const Icon(Icons.dock);
   return const Icon(Icons.arrow_back); 
 }
 

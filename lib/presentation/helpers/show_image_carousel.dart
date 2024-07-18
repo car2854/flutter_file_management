@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:file_management/presentation/widgets/widget.dart';
 import 'package:flutter/material.dart';
+import 'package:file_management/domain/helpers/helper.dart';
 
 void showImagesCarousel({required List<File> files, required BuildContext context, required void Function() onPressedAccept}) {
 
@@ -35,7 +36,7 @@ void showImagesCarousel({required List<File> files, required BuildContext contex
                   items: files.map((file) {
                     return Builder(
                       builder: (BuildContext context) {
-                        return Image.file(file, fit: BoxFit.cover, width: 1000,);
+                        return (['pdf', 'docs'].contains(getFileExtensionHelper(file.path))) ? const Icon(Icons.picture_as_pdf) : Image.file(file, fit: BoxFit.cover, width: 1000,);
                       },
                     );
                   }).toList(),

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:file_management/data/models/model.dart';
+import 'package:file_management/domain/helpers/helper.dart';
 import 'package:path_provider/path_provider.dart';
 
 part 'local_file_event.dart';
@@ -50,9 +51,6 @@ class LocalFileBloc extends Bloc<LocalFileEvent, LocalFileState> {
       if (directory == null){
         await _getLocalPath();
       }
-      print('VVer estop');
-      print(state.pathHistory[0].length);
-      print('--------------');
 
       final dir = Directory(state.pathHistory.last);
 
@@ -69,20 +67,17 @@ class LocalFileBloc extends Bloc<LocalFileEvent, LocalFileState> {
       }
 
       for (var entity in entities) {
-        print(entity.path);
-        print(entity.path);
         if ( entity is Directory || entity is File ) {
-          print(entity.path);
+          final extension = getFileExtensionHelper(entity.path);
           // print(state.directory);
           FileModel file = FileModel(
             fileName: entity.path.split('/').last, 
             name: entity.path.split('/').last, 
             publicUrl: entity.path, 
-            format: (entity is Directory) ? 'folder' : 'image'
+            format: (getFormatHelper(extension) == '') ? 'folder' : getFormatHelper(extension)
           );
 
           files.add(file);
-          print(entity.path);
         }
       }
 
@@ -123,17 +118,31 @@ class LocalFileBloc extends Bloc<LocalFileEvent, LocalFileState> {
   Future<bool> moveFilesToAppDirectory(List<File> files) async {
     try {
       for (File file in files) {
+        
+        print('Ver el path');
+        print(file.path);
+
+
+        String fileExtension = getFileExtensionHelper(file.path);
+
+        print(fileExtension);
+        print(getFormatHelper(fileExtension));
+
         String fileName = file.path.split('/').last;
         String newPath = '${state.pathHistory.last}/$fileName';
+        
+        await file.copy(newPath);
+        
         add(OnSetFiles([...state.files, FileModel(
           fileName: fileName, 
           name: fileName, 
           publicUrl: newPath, 
-          format: 'image'
+          format: getFormatHelper(fileExtension)
         )]));
       }
       return true;
     } catch (e) {
+      print(e);
       return false;
     }
   }

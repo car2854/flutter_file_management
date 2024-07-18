@@ -5,6 +5,7 @@ import 'package:file_management/presentation/widgets/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:open_filex/open_filex.dart';
 
 class LocalPage extends StatelessWidget {
 
@@ -144,8 +145,9 @@ class LocalPage extends StatelessWidget {
                               title: stateLocalFile.files[index].name,
                               isLocal: true,
                               onTap: () async {
-
-                                if (stateLocalFile.files[index].format == 'image'){
+                                if (['pdf', 'docx'].contains(stateLocalFile.files[index].format)){
+                                  OpenFilex.open(stateLocalFile.files[index].publicUrl);
+                                } else if (['image','gif'].contains(stateLocalFile.files[index].format)){
                                   showDialog(
                                     context: context, 
                                     builder: (BuildContext context) {

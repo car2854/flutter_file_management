@@ -25,7 +25,7 @@ class ListTileWidget extends StatelessWidget {
       //   path: leadingPath,
       //   isLocal: isLocal
       // ),
-      leading: (leadingFormat == 'folder' || leadingFormat == 'back') 
+      leading: (['folder', 'back', 'pdf', 'docx'].contains(leadingFormat)) 
         ? getIcon(
           format: leadingFormat,
             path: leadingPath,
